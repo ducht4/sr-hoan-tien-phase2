@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SR Hoàn Tiền · Phase 2 — Mockup tổng hợp</title>
+<style>
+  :root{
+    --bg:#f4f6fa; --card:#ffffff; --ink:#1f2733; --ink2:#5b6676; --muted:#8a94a3;
+    --line:#e3e8ef; --line2:#d4dbe5; --accent:#2563c9; --accent-bg:#eef4fd;
+    --orange:#d9700f; --orange-bg:#fdf3e7;
+    --p2:#7b4bd1; --p2-bg:#f1ebfb; --p2-line:#d8c7f3;
+    --fix:#c0432e; --fix-bg:#fdecea; --fix-line:#f1b7ad;
+    --warn:#b4600a; --warn-bg:#fef4e2; --warn-line:#f0c788;
+    --ok:#157a4a; --ok-bg:#e7f4ec; --ok-line:#a9d9bd;
+    --ds:#0f766e; --ds-bg:#e3f3f1; --ds-line:#a6ddd6;
+    --off:#9aa4b2; --off-bg:#eef1f5;
+    --head:#eaf0f8; --radius:8px; color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14181e; --card:#1b2129; --ink:#e7ecf3; --ink2:#a9b4c2; --muted:#7f8a98;
+      --line:#2b333d; --line2:#39424e; --accent:#5a9bf0; --accent-bg:#1b2a40;
+      --orange:#e4a059; --orange-bg:#33260f;
+      --p2:#b89af0; --p2-bg:#2a2140; --p2-line:#4a3a6e;
+      --fix:#e88d7a; --fix-bg:#36211c; --fix-line:#6a3a30;
+      --warn:#e6b25f; --warn-bg:#36280f; --warn-line:#6a4e1c;
+      --ok:#5cc08c; --ok-bg:#16301f; --ok-line:#2c5a3d;
+      --ds:#5ec5bb; --ds-bg:#10302d; --ds-line:#2a5752;
+      --off:#6b7585; --off-bg:#232a33;
+      --head:#232c37; color-scheme:dark;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Roboto,Arial,sans-serif;font-size:13px;line-height:1.45;padding:16px calc(env(safe-area-inset-right,0px) + 16px) 40px calc(env(safe-area-inset-left,0px) + 16px)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .topbar h1{font-size:18px;font-weight:600;margin:0}
+  .topbar .sub{color:var(--ink2);font-size:12px}
+  .brand{display:inline-flex;align-items:center;gap:8px}
+  .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+  .app{display:flex;gap:16px;align-items:flex-start}
+  .nav{width:240px;flex-shrink:0;position:sticky;top:12px}
+  .nav .ni{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;background:var(--card)}
+  .nav .ni:hover{border-color:var(--line2)}
+  .nav .ni.on{border-color:var(--accent);background:var(--accent-bg)}
+  .nav .ni .num{width:26px;height:26px;border-radius:7px;background:var(--off-bg);color:var(--ink2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+  .nav .ni.on .num{background:var(--accent);color:#fff}
+  .nav .ni .tt{font-weight:600;font-size:13px}
+  .nav .ni .ds-s{font-size:11px;color:var(--ds);font-weight:600}
+  .nav .ni .dd{font-size:11px;color:var(--ink2)}
+  .content{flex:1;min-width:0}
+  @media(max-width:860px){.app{flex-direction:column}.nav{width:100%;position:static;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}.nav .ni{margin:0;min-width:200px}}
+
+  .panel{display:none}
+  .panel.on{display:block}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-bottom:12px}
+  .legend b{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .p2tag,.fixtag,.dstag{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600;border:1px solid}
+  .p2tag{background:var(--p2-bg);color:var(--p2);border-color:var(--p2-line)}
+  .fixtag{background:var(--fix-bg);color:var(--fix);border-color:var(--fix-line)}
+  .dstag{background:var(--ds-bg);color:var(--ds);border-color:var(--ds-line)}
+
+  .panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .panelhead h2{font-size:16px;font-weight:600;margin:0}
+  .panelhead .sub{color:var(--ink2);font-size:12px}
+
+  .toolbar{display:flex;gap:16px;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px}
+  .tb{display:flex;align-items:center;gap:7px}
+  .tb .lbl{font-size:12px;color:var(--ink2)}
+  .seg{display:inline-flex;border:1px solid var(--line2);border-radius:7px;overflow:hidden;flex-wrap:wrap}
+  .seg button{border:none;background:var(--card);color:var(--ink2);padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:none}
+  .seg button.on{background:var(--accent);color:#fff}
+  .seg button:disabled{opacity:.4;cursor:not-allowed}
+  .sw{position:relative;width:38px;height:20px;border-radius:20px;background:var(--line2);cursor:pointer;transition:.15s}
+  .sw.on{background:var(--warn)}
+  .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+  .sw.on::after{left:20px}
+
+  .section{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
+  .sec-h{display:flex;align-items:center;gap:8px;padding:11px 14px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--line)}
+  .sec-h .ic{width:16px;height:16px;border-radius:4px;background:var(--accent);opacity:.85;display:inline-block}
+  .sec-h .chev{margin-left:auto;color:var(--muted);font-size:12px}
+  .collapsed .sec-b{display:none}.collapsed .sec-h{border-bottom:none}
+  .sec-b{padding:14px}
+  .tabs{display:flex;gap:4px;padding:10px 14px 0;border-bottom:1px solid var(--line)}
+  .tab{padding:7px 14px;font-size:13px;color:var(--ink2);border:1px solid transparent;border-bottom:none;border-radius:8px 8px 0 0;cursor:default}
+  .tab.on{color:var(--accent);font-weight:600;border-color:var(--line);background:var(--card);margin-bottom:-1px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 18px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .fld,.row{display:flex;flex-direction:column;gap:4px}
+  .fld label,.row .lab{font-size:11px;color:var(--ink2)}
+  .req{color:#d14343}
+  .row .val{font-size:13px;min-height:20px}
+  .ctrl{min-height:34px;border:1px solid var(--line2);border-radius:var(--radius);background:var(--bg);color:var(--ink);padding:7px 10px;display:flex;align-items:center;justify-content:space-between;font-size:13px}
+  .ctrl.ed{background:var(--card)}
+  .ctrl .ph{color:var(--muted)}
+  .ctrl .car{color:var(--muted);font-size:10px}
+  textarea.ctrl{min-height:54px;align-items:flex-start;font-family:inherit;resize:vertical;width:100%}
+  .xetbox{border-color:var(--warn-line);background:var(--warn-bg);color:var(--warn);font-weight:600}
+  .pp{color:var(--p2)} .pf{color:var(--fix);font-weight:600}
+  .subh{font-weight:600;margin:4px 0 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .hint{font-size:11px;color:var(--muted);margin-top:4px}
+  .masked{letter-spacing:.5px}
+
+  .tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left;white-space:nowrap}
+  th{background:var(--head);color:var(--ink2);font-weight:600;font-size:11px}
+  tr:last-child td{border-bottom:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .ro-val{color:var(--accent);font-weight:600}
+  .inp{display:inline-block;min-width:76px;border:1px solid var(--orange);color:var(--orange);background:var(--orange-bg);border-radius:5px;padding:2px 7px;text-align:right;font-weight:600}
+  .inp.zero{color:var(--muted);background:var(--bg);border-color:var(--line2);font-weight:400}
+  .chk{width:14px;height:14px;border:1.5px solid var(--line2);border-radius:3px;display:inline-block;vertical-align:-2px}
+  .chk.on{background:var(--accent);border-color:var(--accent);position:relative}
+  .chk.on::after{content:"";position:absolute;left:4px;top:1px;width:3px;height:7px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .total{display:flex;align-items:center;gap:10px;margin:12px 0 4px;font-weight:600}
+  .total.c{justify-content:center}
+  .total b{color:var(--accent);font-size:15px}
+  .st{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:1px 9px;font-size:11px;font-weight:600}
+  .st.ok{background:var(--ok-bg);color:var(--ok)} .st.no{background:var(--fix-bg);color:var(--fix)}
+  .st.wait{background:var(--warn-bg);color:var(--warn)} .st.sms{background:var(--accent-bg);color:var(--accent)}
+  .badge-na{display:inline-flex;align-items:center;gap:5px;background:var(--off-bg);color:var(--ink2);border:1px dashed var(--line2);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
+
+  .warn{display:flex;gap:9px;align-items:center;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:7px;padding:10px 12px;margin:10px 0;font-size:12.5px;color:var(--warn);font-weight:600}
+  .warn .bang{width:18px;height:18px;border-radius:50%;background:var(--warn);color:var(--warn-bg);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:12px}
+  .note{display:flex;gap:8px;align-items:flex-start;border-radius:6px;padding:9px 11px;margin:10px 0;font-size:12px;border:1px solid;border-left-width:3px}
+  .note.p2{background:var(--p2-bg);border-color:var(--p2-line);border-left-color:var(--p2)}
+  .note.fix{background:var(--fix-bg);border-color:var(--fix-line);border-left-color:var(--fix)}
+  .note.warn{background:var(--warn-bg);border-color:var(--warn-line);border-left-color:var(--warn)}
+  .note.ok{background:var(--ok-bg);border-color:var(--ok-line);border-left-color:var(--ok)}
+  .note.ds{background:var(--ds-bg);border-color:var(--ds-line);border-left-color:var(--ds)}
+  .note .k{font-weight:700;white-space:nowrap}
+  .note.p2 .k{color:var(--p2)} .note.fix .k{color:var(--fix)} .note.warn .k{color:var(--warn)} .note.ok .k{color:var(--ok)} .note.ds .k{color:var(--ds)}
+
+  .diffbox{background:var(--ds-bg);border:1px solid var(--ds-line);border-left:3px solid var(--ds);border-radius:8px;padding:11px 13px;margin-bottom:14px;font-size:12.5px}
+  .diffbox b{color:var(--ds)} .diffbox ul{margin:6px 0 0;padding-left:18px} .diffbox li{margin:2px 0}
+
+  .flow{display:flex;align-items:stretch;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .step{flex:1;min-width:230px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .step.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+  .step .top{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .step .no{width:26px;height:26px;border-radius:50%;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .step .ttl{font-weight:600}
+  .step .role{color:var(--ink2);font-size:12px;margin-bottom:8px}
+  .arrow{display:flex;align-items:center;color:var(--muted);font-size:20px}
+  @media(max-width:720px){.arrow{transform:rotate(90deg)}}
+  .badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600;border:1px solid}
+  .b-req{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+  .b-by,.b-na{background:var(--off-bg);color:var(--off);border-color:var(--line2)}
+
+  .stepper{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+  .pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--ink2)}
+  .pill .n{width:18px;height:18px;border-radius:50%;background:var(--off-bg);color:var(--off);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .pill.done{border-color:var(--ok-line);background:var(--ok-bg);color:var(--ok)} .pill.done .n{background:var(--ok);color:#fff}
+  .pill.active{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600} .pill.active .n{background:var(--accent);color:#fff}
+  .pill.fail{border-color:var(--fix-line);background:var(--fix-bg);color:var(--fix)} .pill.fail .n{background:var(--fix);color:#fff}
+  .sep{color:var(--muted)}
+
+  .statusbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+  .statusbar .lab{font-size:12px;color:var(--ink2)}
+  .stbadge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;border:1px solid}
+  .b-wait{background:var(--off-bg);color:var(--ink2);border-color:var(--line2)}
+  .b-go{background:var(--accent-bg);color:var(--accent);border-color:var(--accent)}
+  .b-ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+  .b-no{background:var(--fix-bg);color:var(--fix);border-color:var(--fix-line)}
+  .b-mix{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-line)}
+
+  .radio{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;margin-right:22px}
+  .rd{width:16px;height:16px;border:1.5px solid var(--line2);border-radius:50%;display:inline-block;position:relative}
+  .rd.on{border-color:var(--accent)} .rd.on::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
+  .mailstat{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
+  .mailstat.sent{background:var(--ok-bg);color:var(--ok)} .mailstat.pend{background:var(--warn-bg);color:var(--warn)}
+  .msel{border:1px solid var(--line2);border-radius:6px;padding:3px 7px;font-size:11px;background:var(--card);color:var(--ink);font-family:inherit}
+  .file{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:6px;padding:4px 9px;font-size:12px;margin:0 8px 6px 0;background:var(--bg)}
+  .pager{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;margin-top:8px;justify-content:flex-end}
+  .pager .pg{border:1px solid var(--line2);border-radius:4px;padding:1px 7px}
+  .pager .pg.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  .actionbar{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line);background:var(--bg);flex-wrap:wrap}
+  .btn{height:34px;border-radius:var(--radius);padding:0 15px;font-size:13px;font-weight:600;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+  .btn.p{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.d{border-color:#d88;color:#c24} .btn.g{border-style:dashed}
+  .btn.sm{height:28px;padding:0 10px;font-size:12px}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .spacer{flex:1}
+  .retry{font-size:12px;color:var(--warn);font-weight:600}
+  .cancel-note{font-size:11px;color:var(--muted);flex-basis:100%;margin-top:2px}
+  .doclink{color:var(--accent);font-size:12px;text-decoration:underline;cursor:pointer}
+  .sum{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .sumcard{background:var(--bg);border-radius:8px;padding:8px 12px;min-width:120px}
+  .sumcard .n{font-size:20px;font-weight:600} .sumcard .t{font-size:11px;color:var(--ink2)}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="logo">SR</span>
+    <div><h1>SR Hoàn Tiền · Phase 2</h1><div class="sub">Mockup tổng hợp — Xử lý giao dịch → Duyệt → Hoàn tiền CK / Online / Đối soát</div></div>
+  </div>
+  <div class="legend">
+    <b><span class="dot" style="background:var(--p2)"></span>Điều chỉnh Phase 2</b>
+    <b><span class="dot" style="background:var(--fix)"></span>Bug-fix P1</b>
+    <b><span class="dot" style="background:var(--ds)"></span>Luồng đối soát</b>
+  </div>
+</div>
+
+<div class="app">
+  <!-- NAV -->
+  <div class="nav" id="nav">
+    <div class="ni on" data-p="b3"><span class="num">3</span><div><div class="tt">Xử lý giao dịch</div><div class="dd">Bước 3</div></div></div>
+    <div class="ni" data-p="b4"><span class="num">4</span><div><div class="tt">TPP &amp; GĐCN duyệt</div><div class="dd">Bước 4 · 2 cấp</div></div></div>
+    <div class="ni" data-p="b51"><span class="num">5.1</span><div><div class="tt">Hoàn tiền CK</div><div class="dd">ePayment</div></div></div>
+    <div class="ni" data-p="b52"><span class="num">5.2</span><div><div class="tt">Hoàn tiền Online</div><div class="dd">HO duyệt</div></div></div>
+    <div class="ni" data-p="ds"><span class="num">5.2</span><div><div class="tt">Online — đối soát</div><div class="ds-s">Luồng đối soát</div></div></div>
+  </div>
+
+  <div class="content">
+
+  <!-- ============ PANEL B3 ============ -->
+  <div class="panel on" id="panel-b3">
+    <div class="panelhead"><div><h2>Bước 3 — Xử lý giao dịch</h2><div class="sub">Màn xử lý SR (Kết quả tư vấn = KH đồng ý)</div></div><span class="p2tag">3 điều chỉnh Phase 2</span></div>
+    <div class="toolbar">
+      <div class="tb"><span class="lbl">Phương thức hoàn tiền:</span>
+        <div class="seg" id="b3-segPMH"><button data-v="CK">Chuyển khoản</button><button data-v="OL" class="on">Online</button></div>
+      </div>
+      <div class="tb"><span class="lbl">Mô phỏng: PMH chưa khai báo đối tác</span><span class="sw on" id="b3-swPartner"></span></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin tạo<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid2">
+        <div class="fld"><label>Yêu cầu cha</label><div class="ctrl">Khiếu nại, phàn nàn</div></div>
+        <div class="fld"><label>Mã yêu cầu cha</label><div class="ctrl">SSR-HNABA6046-KNDVAM270626Q26B</div></div>
+        <div class="fld"><label>Lý do hoàn tiền cấp 1 <span class="req">*</span></label><div class="ctrl">Yêu cầu khiếu nại<span class="car">▾</span></div></div>
+        <div class="fld"><label>Lý do hoàn tiền cấp 2 <span class="req">*</span></label><div class="ctrl">Khách hàng yêu cầu hoàn tiền dư trên HĐ<span class="car">▾</span></div></div>
+      </div>
+      <div class="fld" style="margin-top:12px"><label>Nội dung yêu cầu</label><textarea class="ctrl" readonly>Cusho test luồng hệ thống</textarea></div></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin giao dịch<span class="chev">▾</span></div>
+      <div class="sec-b">
+        <div class="subh">Giao dịch đã thanh toán cần hoàn</div>
+        <div class="tscroll"><table>
+          <thead><tr><th></th><th>Mã REF</th><th>Số hợp đồng</th><th>Số khoản thu</th><th class="num">Giá trị GD gồm VAT</th><th class="num">Số tiền cần hoàn</th><th>PT thanh toán</th><th>Chi nhánh</th><th>Thời gian GD</th></tr></thead>
+          <tbody>
+            <tr><td><span class="chk on"></span></td><td>NP01FTEFHQ0626KU55N</td><td>HNABA6046</td><td>HN26E9529640</td><td class="num">10.000</td><td class="num"><span class="inp">10.000</span></td><td>HiFPT-Napas-QR</td><td>HNI_04</td><td>2026-06-27 10:33</td></tr>
+            <tr><td><span class="chk"></span></td><td>NP01FTEFHQ0626YBY07</td><td>HNABA6046</td><td>HN26E8991588</td><td class="num">2.000</td><td class="num"><span class="inp zero">0</span></td><td>HiFPT-Napas-QR</td><td>HNI_04</td><td>2026-06-27 09:34</td></tr>
+            <tr><td><span class="chk"></span></td><td>MOMO_132850602622</td><td>HNABA6046</td><td>M26HN01985939</td><td class="num">288.600</td><td class="num"><span class="inp zero">0</span></td><td>Momo-Auto</td><td>HNI_04</td><td>2026-06-10 14:00</td></tr>
+          </tbody></table></div>
+        <div class="pager">Tổng 12 · Hiển thị 5 <span class="pg on">1</span><span class="pg">2</span><span class="pg">3</span> ›</div>
+        <div class="total c">Tổng số tiền cần hoàn <b>10.000</b></div>
+
+        <div class="subh" style="margin-top:16px">Liệt kê tổng số dư đặt cọc còn lại <span class="p2tag">P2 · chỉ loại đang có tiền</span></div>
+        <div class="tscroll"><table>
+          <thead><tr><th></th><th>Loại đặt cọc</th><th class="num">Số dư còn lại</th><th class="num">Tiền âm cọc</th></tr></thead>
+          <tbody><tr><td><span class="chk on"></span></td><td>Đặt cọc hợp đồng</td><td class="num">10.000</td><td class="num"><span class="inp">10.000</span></td></tr></tbody>
+        </table></div>
+        <div class="note p2"><span class="k">P2 · #1</span><span>Chỉ hiển thị loại đặt cọc có <b>Số dư &gt; 0</b> (loại = 0 bị ẩn). Thứ tự âm cọc gợi ý sẵn (1. Hợp đồng → … → 11. Hủy) và <b>cho chọn/đổi lại</b>.</span></div>
+      </div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Phương thức hoàn tiền<span class="chev">▾</span></div>
+      <div class="sec-b">
+        <div class="grid2">
+          <div class="fld"><label>Phương thức hoàn tiền <span class="req">*</span></label><div class="ctrl" id="b3-pmhBox">Online<span class="car">▾</span></div><div class="hint" id="b3-pmhHint"></div></div>
+          <div class="fld"><label>Thay đổi PT hoàn tiền khác giao dịch ban đầu</label><div class="ctrl">Không<span class="car">▾</span></div></div>
+        </div>
+        <div class="warn" id="b3-partnerWarn"><span class="bang">!</span>Đối tác chưa được khai báo, liên hệ với DVKH HO để được hỗ trợ.<span class="p2tag" style="margin-left:auto">P2 · #3</span></div>
+        <div class="subh" style="margin-top:14px"><span id="b3-accTitle">Thông tin tài khoản hoàn Online</span><span class="p2tag">P2 · #2 · nhập tay hoặc chọn</span></div>
+        <div class="fld" style="margin-bottom:10px"><label>Chọn tài khoản đã lưu</label><div class="ctrl ed"><span class="ph">— Chọn tài khoản —</span><span class="car">▾</span></div><div class="hint">Chọn từ danh sách đã lưu, hoặc nhập tay bên dưới.</div></div>
+        <div class="grid2">
+          <div class="fld"><label>Số tài khoản nhận tiền <span class="req">*</span></label><div class="ctrl ed"><span class="masked" id="b3-stk">190332 xxxxx 6018</span></div></div>
+          <div class="fld"><label><span id="b3-ownerLbl">Tên khách hàng</span> <span class="req">*</span></label><div class="ctrl ed">NGUYEN THI AN THUY</div></div>
+          <div class="fld"><label>Ngân hàng <span class="req">*</span></label><div class="ctrl ed">Ngân hàng Kỹ thương Việt Nam (Techcombank)<span class="car">▾</span></div><div class="hint">Hiển thị [tên đầy đủ] (viết tắt), search theo viết tắt.</div></div>
+          <div class="fld"><label>Chi nhánh</label><div class="ctrl ed">NHTMCP Kỹ Thương CN Hà Thành<span class="car">▾</span></div></div>
+        </div>
+        <div class="note p2"><span class="k">P2 · #2</span><span>Bộ thông tin TK <b>Online và CK giống hệt nhau</b>. Riêng Online: STK che giữa <b>6 đầu + 4 cuối</b> (xxxx).</span></div>
+      </div>
+      <div class="actionbar"><button class="btn g">＋ Đính kèm file</button><span class="doclink">Quy định chứng từ ↗</span><span class="spacer"></span><button class="btn p">Tạo giao dịch</button></div>
+    </div>
+  </div>
+
+  <!-- ============ PANEL B4 ============ -->
+  <div class="panel" id="panel-b4">
+    <div class="panelhead"><div><h2>Bước 4 — Duyệt đề nghị hoàn tiền</h2><div class="sub" id="b4-sub">2 cấp: TPP DVKH → GĐCN</div></div><span class="p2tag">Phase 2 · 2 cấp duyệt</span></div>
+    <div class="toolbar">
+      <div class="tb"><span class="lbl">Loại SR cha:</span><div class="seg" id="b4-segParent"><button data-v="KN" class="on">Khiếu nại</button><button data-v="SSD">TLSSD</button><button data-v="TSD">TLTSD</button></div></div>
+      <div class="tb"><span class="lbl">PT hoàn:</span><div class="seg" id="b4-segMethod"><button data-v="CK" class="on">Chuyển khoản</button><button data-v="OL">Online</button></div></div>
+      <div class="tb" id="b4-ownerWrap"><span class="lbl">Chủ TK vs chủ HĐ:</span><div class="seg" id="b4-segOwner"><button data-v="same">Giống</button><button data-v="diff" class="on">Khác</button></div></div>
+      <div class="tb"><span class="lbl">Đang xem:</span><div class="seg" id="b4-segView"><button data-v="1">Cấp 1 · TPP</button><button data-v="2" class="on">Cấp 2 · GĐCN</button></div></div>
+    </div>
+    <div class="flow">
+      <div class="step" id="b4-st1"><div class="top"><span class="no">1</span><span class="ttl">Duyệt cấp 1</span></div><div class="role">TPP DVKH — CN quản lý HĐ (theo CBQL người tạo SR)</div><span class="badge" id="b4-b1"></span></div>
+      <div class="arrow">→</div>
+      <div class="step" id="b4-st2"><div class="top"><span class="no">2</span><span class="ttl">Duyệt cấp 2</span></div><div class="role">GĐCN — CN quản lý HĐ</div><span class="badge" id="b4-b2"></span></div>
+    </div>
+    <div class="note p2"><span class="k">P2 · rule duyệt</span><span id="b4-ruleText"></span></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin tạo<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid2">
+        <div class="row"><span class="lab">Yêu cầu cha</span><div class="ctrl" id="b4-fParent">Khiếu nại, phàn nàn</div></div>
+        <div class="row"><span class="lab">Mã yêu cầu cha</span><div class="ctrl">SSR-HNABA6046-KNDVAM270626Q26B</div></div>
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 1</span><div class="ctrl" id="b4-fR1">Yêu cầu khiếu nại</div></div>
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 2</span><div class="ctrl">Khách hàng yêu cầu hoàn tiền dư trên HĐ</div></div>
+      </div>
+      <div class="fld" style="margin-top:12px"><label>Nội dung xem xét <span class="p2tag" style="margin-left:4px">theo tình huống duyệt</span></label><div class="ctrl xetbox" id="b4-fXet"></div></div></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin giao dịch<span class="chev">▾</span></div>
+      <div class="sec-b">
+        <div class="subh">Giao dịch đã thanh toán cần hoàn <span style="font-weight:400;color:var(--muted)">(chỉ xem)</span></div>
+        <div class="tscroll"><table>
+          <thead><tr><th></th><th>Mã REF</th><th>Số hợp đồng</th><th class="num">Giá trị GD gồm VAT</th><th class="num">Số tiền cần hoàn</th><th>PT thanh toán</th><th>Chi nhánh</th></tr></thead>
+          <tbody><tr><td><span class="chk on"></span></td><td>NP01FTEFHQ0626KU55N</td><td>HNABA6046</td><td class="num">10.000</td><td class="num ro-val">10.000</td><td>HiFPT-Napas-QR</td><td>HNI_04</td></tr></tbody>
+        </table></div>
+        <div class="total c">Tổng số tiền cần hoàn <b>10.000</b></div>
+        <div class="subh" style="margin-top:12px">Liệt kê tổng số dư đặt cọc còn lại <span class="p2tag">chỉ loại đang có tiền</span></div>
+        <div class="tscroll"><table><thead><tr><th></th><th>Loại đặt cọc</th><th class="num">Số dư còn lại</th><th class="num">Tiền âm cọc</th></tr></thead>
+          <tbody><tr><td><span class="chk on"></span></td><td>Đặt cọc hợp đồng</td><td class="num">10.000</td><td class="num ro-val">10.000</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Phương thức hoàn tiền<span class="chev">▾</span></div>
+      <div class="sec-b">
+        <div class="grid2"><div class="row"><span class="lab">Phương thức hoàn tiền</span><div class="ctrl" id="b4-fMethod">Chuyển khoản</div></div><div class="row"><span class="lab">Thay đổi PT hoàn tiền</span><div class="ctrl">Không</div></div></div>
+        <div class="subh" style="margin-top:14px" id="b4-accTitle">Thông tin tài khoản nhận tiền</div>
+        <div class="grid2">
+          <div class="row"><span class="lab">Số tài khoản nhận tiền</span><div class="ctrl"><span id="b4-fStk">19033214606018</span></div></div>
+          <div class="row"><span class="lab" id="b4-fOwnerLbl">Tên chủ tài khoản</span><div class="ctrl">NGUYEN THI AN THUY</div></div>
+          <div class="row"><span class="lab">Ngân hàng</span><div class="ctrl">Ngân hàng Kỹ thương Việt Nam (Techcombank)</div></div>
+          <div class="row"><span class="lab">Chi nhánh</span><div class="ctrl">NHTMCP Kỹ Thương CN Hà Thành</div></div>
+        </div>
+      </div>
+      <div class="actionbar"><button class="btn d">Hủy giao dịch</button><span class="spacer"></span><button class="btn p" id="b4-btnApprove">Duyệt giao dịch — GĐCN</button><div class="cancel-note" id="b4-cancelNote"></div></div>
+    </div>
+  </div>
+
+  <!-- ============ PANEL B51 ============ -->
+  <div class="panel" id="panel-b51">
+    <div class="panelhead"><div><h2>Bước 5.1 — Ticket đề nghị hoàn tiền chuyển khoản</h2><div class="sub">Hệ thống tạo ticket và đẩy lệnh qua ePayment</div></div><span class="p2tag">UI giữ P1 · chỉ đổi logic</span></div>
+    <div class="toolbar"><div class="tb"><span class="lbl">Mô phỏng trạng thái:</span>
+      <div class="seg" id="b51-segState"><button data-v="create" class="on">Tạo ticket</button><button data-v="wait">Chờ tạo lệnh</button><button data-v="sent">Đã tạo lệnh</button><button data-v="ok">Duyệt OK</button><button data-v="nok">Duyệt not OK</button><button data-v="cancel">Đã hủy</button></div>
+    </div><div class="tb"><span class="retry" id="b51-retryTxt" style="display:none"></span></div></div>
+
+    <div class="stepper" id="b51-stepper">
+      <div class="pill" data-k="create"><span class="n">1</span>Tạo ticket</div><span class="sep">›</span>
+      <div class="pill" data-k="wait"><span class="n">2</span>Chờ tạo lệnh qua ePayment</div><span class="sep">›</span>
+      <div class="pill" data-k="sent"><span class="n">3</span>Đã tạo lệnh qua ePayment</div><span class="sep">›</span>
+      <div class="pill" data-k="ok"><span class="n">4</span>ePayment duyệt OK</div>
+    </div>
+    <div id="b51-stateNotes"></div>
+
+    <div class="section" id="b51-secSteps" style="display:none"><div class="sec-h"><span class="ic"></span>Danh sách các bước duyệt trên ePayment<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="tscroll"><table><thead><tr><th>Bước</th><th>Mã ePayment</th><th>Người thực hiện</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody id="b51-stepRows"></tbody></table></div>
+        <div class="note p2" id="b51-smsNote" style="display:none"><span class="k">P2</span><span>Trên tiến trình xem được <b>thời gian gửi SMS</b> và <b>SĐT nhận SMS</b>.</span></div></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin đề nghị<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid2">
+        <div class="row"><span class="lab">Email người tạo</span><span class="val">ThuyNTA4@fpt.com</span></div>
+        <div class="row"><span class="lab">Email TPP duyệt cấp 1</span><span class="val">tppdvkh.hmi@fpt.com</span></div>
+        <div class="row"><span class="lab">Hình thức thanh toán</span><span class="val">Chuyển khoản</span></div>
+        <div class="row"><span class="lab">Bên nhận</span><span class="val">Cá nhân</span></div>
+        <div class="row"><span class="lab">Đơn vị phê duyệt <span class="pp">· P2 link ePayment, sửa được</span></span><div class="ctrl ed">FTEL-FTEL-HO.HMI<span class="car">▾</span></div></div>
+        <div class="row"><span class="lab">Kỳ ngân sách</span><span class="val">06-2026</span></div>
+        <div class="row"><span class="lab">Tư cách pháp nhân <span class="fixtag" style="margin-left:4px">fix</span></span><span class="val pf">FTEL-HO-THANH TOAN</span></div>
+        <div class="row"><span class="lab">Trạng thái</span><span class="val" id="b51-valState">Tạo ticket</span></div>
+      </div>
+      <div class="note fix"><span class="k">Bug-fix P1</span><span>Tư cách pháp nhân đúng = <b>FTEL-HO-THANH TOAN</b> (P1 sai FTEL-HO-CHI HO).</span></div></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin chứng từ<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid3">
+        <div class="row"><span class="lab">Loại chứng từ</span><span class="val">Hóa đơn khác</span></div>
+        <div class="row"><span class="lab">Loại tiền</span><span class="val">VND</span></div>
+        <div class="row"><span class="lab">Chi hộ</span><span class="val">N</span></div>
+        <div class="row"><span class="lab">Đơn vị chịu chi phí <span class="pp">· sửa được</span></span><div class="ctrl ed">FTEL-FTEL-HO.HMI<span class="car">▾</span></div></div>
+        <div class="row"><span class="lab">Mã dự án cha <span class="pp">· sửa được</span></span><div class="ctrl ed">Chi phí Phòng KD Quán Hoàng Mai<span class="car">▾</span></div></div>
+        <div class="row"><span class="lab">Mã khoản mục ngân sách <span class="pp">· sửa được</span></span><div class="ctrl ed">TTKHAC-TRANOTOK<span class="car">▾</span></div></div>
+        <div class="row"><span class="lab">Đơn giá</span><span class="val">10.000</span></div>
+        <div class="row"><span class="lab">Loại thuế <span class="fixtag" style="margin-left:4px">fix</span></span><span class="val pf">NOTAX</span></div>
+        <div class="row"><span class="lab">Tiền thuế <span class="fixtag" style="margin-left:4px">fix</span></span><span class="val pf">0</span></div>
+        <div class="row"><span class="lab">Tổng tiền sau thuế</span><span class="val">10.000</span></div>
+      </div>
+      <div class="note fix"><span class="k">Bug-fix P1</span><span>Không trừ thuế: Loại thuế = <b>NOTAX</b>, Tiền thuế = <b>0</b> (P1 auto trừ 10%).</span></div>
+      <div class="note p2"><span class="k">P2 · Đơn vị–Dự án–Khoản mục</span><span>Link tự động sang ePayment, cho cập nhật trước khi gửi và <b>đồng bộ ngược về SR</b>.</span></div></div>
+    </div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin chuyển khoản<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid2">
+        <div class="row"><span class="lab">Số tiền</span><span class="val">10.000</span></div>
+        <div class="row"><span class="lab">Tài khoản số</span><span class="val">19033214606018</span></div>
+        <div class="row"><span class="lab">Chủ tài khoản</span><span class="val">NGUYEN THI AN THUY</span></div>
+        <div class="row"><span class="lab">Tên ngân hàng</span><span class="val">Ngân hàng Kỹ thương Việt Nam (Techcombank)</span></div>
+      </div>
+      <div class="subh" style="margin-top:14px">Tài liệu đính kèm</div>
+      <div><span class="file">📎 Screenshot_3.png</span><span class="file">📎 Screenshot_1.png</span></div>
+      <div class="note p2"><span class="k">P2</span><span>Khi tạo lệnh: <b>link hồ sơ đính kèm từ SR sang ePayment</b>.</span></div></div>
+      <div class="actionbar"><button class="btn d" id="b51-btnCancel">Hủy lệnh</button><span class="retry" id="b51-retryInline" style="display:none"></span><span class="spacer"></span><button class="btn p" id="b51-btnMain">Tạo lệnh ePayment</button><span id="b51-epayDemo" style="display:none"></span></div>
+    </div>
+  </div>
+
+  <!-- ============ PANEL B52 ============ -->
+  <div class="panel" id="panel-b52">
+    <div class="panelhead"><div><h2>Bước 5.2 — HO duyệt &amp; cập nhật trạng thái hoàn tiền Online</h2><div class="sub" id="b52-sub">Kênh hoàn tiền nhận diện từ PMH</div></div><span class="p2tag">UI giữ P1 · chỉ đổi logic</span></div>
+    <div class="toolbar">
+      <div class="tb"><span class="lbl">Kênh hoàn tiền (PMH):</span><div class="seg" id="b52-segChannel"><button data-v="Mail" class="on">Mail</button><button data-v="API">API</button><button data-v="Merchant">Merchant</button></div></div>
+      <div class="tb"><span class="lbl">Đối tác chưa khai báo trên PMH</span><span class="sw" id="b52-swPartner"></span></div>
+    </div>
+    <div class="statusbar"><span class="lab">Tình trạng xử lý đối tác:</span><span class="stbadge b-wait" id="b52-statusBadge">Chờ HO duyệt</span><span class="spacer"></span><span class="lab" id="b52-srState">SR: Đang xử lý</span></div>
+
+    <div class="section"><div class="tabs"><div class="tab on">Thông tin chi tiết</div><div class="tab">SubTicket (0)</div><div class="tab">Thảo luận</div></div>
+      <div class="sec-b"><div class="row"><span class="lab">Người yêu cầu</span><span class="val"><span class="ro-val">NGUYỄN THỊ TUYẾT</span> | 0906200687</span></div></div></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin tạo<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid3">
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 1</span><span class="val">Yêu cầu khiếu nại</span></div>
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 2</span><span class="val">Khách hàng yêu cầu hoàn tiền dư trên HĐ</span></div>
+        <div class="row"><span class="lab">Hình thức hoàn tiền</span><span class="val">Online</span></div>
+      </div></div></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Chi tiết giao dịch<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="total">Số tiền cần hoàn <b>10.000 VND</b></div>
+        <div class="subh">Giao dịch đã thanh toán cần hoàn</div>
+        <div class="tscroll"><table><thead><tr><th></th><th>Mã REF</th><th>Số hợp đồng</th><th class="num">Giá trị GD gồm VAT</th><th class="num">Số tiền cần hoàn</th><th>PT thanh toán</th><th>Chi nhánh</th></tr></thead>
+          <tbody><tr><td><span class="chk on"></span></td><td>FTELMEMBER_2607524384</td><td>SGAFV5993</td><td class="num">10.000</td><td class="num ro-val">10.000</td><td>Mobisale-VNPay-QR</td><td>HCM_16</td></tr></tbody></table></div>
+        <div class="subh" style="margin-top:14px">Liệt kê tổng số dư đặt cọc còn lại <span class="p2tag">chỉ loại đang có tiền</span></div>
+        <div class="tscroll"><table><thead><tr><th></th><th>Loại đặt cọc</th><th class="num">Số dư còn lại</th><th class="num">Tiền âm cọc</th></tr></thead>
+          <tbody><tr><td><span class="chk on"></span></td><td>Đặt cọc hợp đồng</td><td class="num">25.000</td><td class="num ro-val">10.000</td></tr></tbody></table></div>
+      </div></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin đối tác hoàn tiền<span class="p2tag" style="margin-left:4px">P2 · lấy từ PMH</span><span class="chev">▾</span></div>
+      <div class="sec-b"><div class="warn hide" id="b52-partnerWarn"><span class="bang">!</span>Đối tác chưa được khai báo, liên hệ với DVKH HO để được hỗ trợ.<span class="p2tag" style="margin-left:auto">P2</span></div>
+        <div class="grid2">
+          <div class="row"><span class="lab">Đối tác hoàn tiền</span><div class="ctrl" id="b52-pPartner">VNPAY</div></div>
+          <div class="row"><span class="lab">Kênh hoàn tiền</span><div class="ctrl" id="b52-pChannel">Mail</div></div>
+          <div class="row"><span class="lab">Quy định thời gian hoàn</span><div class="ctrl">30 ngày</div></div>
+          <div class="row"><span class="lab">Loại hoàn</span><div class="ctrl">Toàn phần</div></div>
+        </div>
+        <div class="note p2" id="b52-pmhNote"><span class="k">P2</span><span>Bỏ khai báo tay — bộ <b>Đối tác · kênh · thời gian hoàn · loại hoàn</b> lấy từ PMH theo PTTT; chọn GD + PT hoàn Online thì <b>tự nhận diện kênh hoàn tiền</b>.</span></div></div></div>
+
+    <div class="section" id="b52-secDuyet"><div class="sec-h"><span class="ic"></span>Phương án HO duyệt<span class="chev">▾</span></div>
+      <div class="sec-b"><div style="margin-bottom:12px">
+        <span class="radio" data-dec="approve"><span class="rd on" id="b52-rdA"></span>Đồng ý</span>
+        <span class="radio" data-dec="reject"><span class="rd" id="b52-rdR"></span>Từ chối</span></div>
+        <div id="b52-rejectBox" class="hide"><div class="row"><span class="lab">Lý do từ chối <span class="req">*</span></span><textarea class="ctrl ed" id="b52-rejectReason" placeholder="Nhập lý do từ chối duyệt"></textarea></div></div>
+        <div id="b52-approveBox"><div class="grid2">
+          <div class="row"><span class="lab">Đối tác hoàn tiền</span><div class="ctrl" id="b52-aPartner">VNPAY</div></div>
+          <div class="row"><span class="lab">Kênh hoàn tiền</span><div class="ctrl" id="b52-aChannel">Mail</div></div></div>
+          <div id="b52-mailOpts" style="margin-top:12px">
+            <label class="radio" id="b52-sendNowWrap"><span class="chk" id="b52-sendNow"></span>Gửi mail ngay (CC ftel.cus.doisoat@fpt.com)</label>
+            <div class="row" style="margin-top:8px;max-width:300px"><span class="lab">Trạng thái gửi email</span><div class="ctrl" id="b52-mailStateBox"><span class="mailstat pend">Chờ gửi mail</span></div></div>
+          </div></div>
+      </div>
+      <div class="actionbar"><span class="spacer"></span><button class="btn p" id="b52-btnDuyet">Duyệt</button></div>
+    </div>
+
+    <div class="section hide" id="b52-secCapNhat"><div class="sec-h"><span class="ic"></span>Cập nhật kết quả hoàn tiền từ đối tác<span class="chev">▾</span></div>
+      <div class="sec-b"><div id="b52-apiAuto" class="note p2 hide"><span class="k">P2 · API</span><span>Kênh API: PMH <b>tự động update kết quả</b> về ticket (không cập nhật tay).</span></div>
+        <div class="row" style="max-width:420px"><span class="lab">Tình trạng xử lý của đối tác <span class="req">*</span></span><div class="ctrl ed" id="b52-resultSel"><span id="b52-resultTxt">— Chọn kết quả —</span><span class="car">▾</span></div></div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-res="ok">Đối tác đồng ý - KH chờ nhận tiền</button><button class="btn sm" data-res="nok">Đối tác từ chối hoàn tiền</button></div>
+      </div>
+      <div class="actionbar"><span class="spacer"></span><button class="btn p" id="b52-btnCapNhat" disabled>Cập nhật</button></div>
+    </div>
+    <div id="b52-progress"></div>
+  </div>
+
+  <!-- ============ PANEL DS ============ -->
+  <div class="panel" id="panel-ds">
+    <div class="panelhead"><div><h2>Bước 5.2 — HO duyệt hoàn tiền Online · Luồng đối soát</h2><div class="sub" id="ds-sub">Ticket tự tạo từ tool Đối soát</div></div><span class="dstag">Luồng ĐỐI SOÁT</span></div>
+    <div class="diffbox"><b>Khác luồng Online thường:</b>
+      <ul>
+        <li>Nguyên nhân: <b>cấp 1 = cấp 2 = "Hoàn tiền đối soát"</b>. GD do tool Đối soát đẩy qua API; 1 GD chỉ đẩy 1 lần.</li>
+        <li>Ticket Online <b>tự tạo sau phân công</b>, mặc định "DVKHHO đồng ý duyệt - Chuyển đối tác hoàn tiền" → <b>không có bước HO bấm Duyệt</b>.</li>
+        <li><b>KHÔNG âm cọc</b> — vẫn gửi SMS hoàn tiền tới KH.</li>
+        <li>Có HĐ → SR theo số HĐ (realtime). Không HĐ → mỗi đối tác 1 SR (gom 10, 16h; đẩy tay khi gấp).</li>
+      </ul></div>
+    <div class="toolbar">
+      <div class="tb"><span class="lbl">Kênh hoàn tiền (PMH):</span><div class="seg" id="ds-segChannel"><button data-v="Mail" class="on">Mail</button><button data-v="API">API</button><button data-v="Merchant">Merchant</button></div></div>
+      <div class="tb"><span class="lbl">Loại SR:</span><div class="seg" id="ds-segType"><button data-v="partner" class="on">Theo đối tác</button><button data-v="hd">Theo số HĐ</button></div></div>
+    </div>
+    <div class="statusbar"><span class="lab">Tình trạng ticket:</span><span class="stbadge b-go" id="ds-statusBadge">DVKHHO đồng ý duyệt - Chuyển đối tác hoàn tiền</span><span class="spacer"></span><span class="lab" id="ds-srState">SR: Đang xử lý</span></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Thông tin tạo<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="grid3">
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 1</span><div class="ctrl" style="color:var(--ds);font-weight:600">Hoàn tiền đối soát</div></div>
+        <div class="row"><span class="lab">Lý do hoàn tiền cấp 2</span><div class="ctrl" style="color:var(--ds);font-weight:600">Hoàn tiền đối soát</div></div>
+        <div class="row"><span class="lab">Hình thức hoàn tiền</span><div class="ctrl">Online</div></div>
+        <div class="row"><span class="lab" id="ds-hdLbl">Mã HĐ đối tác</span><div class="ctrl" id="ds-hdVal">VNPAY-DS-2026</div></div>
+        <div class="row"><span class="lab">Đối tác hoàn tiền (PMH)</span><div class="ctrl">VNPAY</div></div>
+        <div class="row"><span class="lab">Kênh hoàn tiền (PMH)</span><div class="ctrl" id="ds-chVal">Mail</div></div>
+      </div>
+      <div class="note ds"><span class="k">Đối soát</span><span>SR tạo qua <b>API từ tool Đối soát</b> với GD chọn phương án xử lý = Hoàn tiền.</span></div></div></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Chi tiết giao dịch đối soát<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="subh">Danh sách giao dịch cần hoàn <span class="badge-na">Không âm cọc</span><span style="margin-left:auto;font-weight:400;color:var(--ink2)">Tổng tiền hoàn: <b class="ro-val" id="ds-totalAmt">1.450.000</b></span></div>
+        <div class="tscroll"><table><thead><tr><th>#</th><th>Mã REF / GD</th><th>Đối tác</th><th>Kênh</th><th class="num">Số tiền hoàn</th><th>Trạng thái hoàn tiền</th><th>Nguyên nhân (fail)</th></tr></thead><tbody id="ds-txRows"></tbody></table></div>
+        <div class="note p2"><span class="k">P2</span><span>SR đẩy kết quả thành công/thất bại <b>realtime</b> sang Đối soát; cuối ngày tự <b>đẩy lại mã fail</b>.</span></div></div></div>
+
+    <div class="section"><div class="sec-h"><span class="ic"></span>Chuyển đối tác hoàn tiền (tự động)<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="note p2"><span class="k">P2 · Auto</span><span>Mặc định "Chuyển đối tác hoàn tiền": gửi <b>SMS</b> hoàn tiền tới KH (12/10/2026 22:20 · 0906200687). <b>Không âm cọc.</b></span></div>
+        <div id="ds-channelNote"></div>
+        <div style="margin-top:8px"><button class="btn p" id="ds-btnReceive">Nhận kết quả hoàn tiền từ đối tác</button><span style="font-size:11px;color:var(--muted);margin-left:8px" id="ds-recvHint"></span></div></div></div>
+
+    <div class="section hide" id="ds-secFail"><div class="sec-h"><span class="ic"></span>Kiểm tra lại giao dịch thất bại<span class="chev">▾</span></div>
+      <div class="sec-b"><div class="note warn"><span class="k">Đối soát</span><span>Kết thúc SR cần lấy ra GD <b>thất bại</b> để DVKH HO phân loại: nguyên nhân cho <b>Retry</b>, nguyên nhân thì <b>Đóng</b>.</span></div>
+        <div class="tscroll"><table><thead><tr><th>Mã REF / GD</th><th class="num">Số tiền</th><th>Nguyên nhân fail</th><th>Phân loại xử lý</th></tr></thead><tbody id="ds-failRows"></tbody></table></div></div>
+      <div class="actionbar"><span class="spacer"></span><button class="btn p" id="ds-btnClose">Kết thúc SR</button></div></div>
+    <div id="ds-result"></div>
+  </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ---------- NAV ----------
+(function(){
+  var nav=document.getElementById('nav');
+  nav.addEventListener('click',function(e){
+    var ni=e.target.closest('.ni'); if(!ni)return;
+    Array.prototype.forEach.call(nav.children,function(x){x.classList.toggle('on',x===ni);});
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on',p.id==='panel-'+ni.dataset.p);});
+    window.scrollTo(0,0);
+  });
+  // collapse (global)
+  document.querySelectorAll('.section .sec-h').forEach(function(h){
+    h.addEventListener('click',function(){var s=h.parentElement;s.classList.toggle('collapsed');var c=h.querySelector('.chev');if(c)c.textContent=s.classList.contains('collapsed')?'▸':'▾';});
+  });
+})();
+
+// ---------- B3 ----------
+(function(){
+  var P='b3-', mode='OL', noPartner=true;
+  function $(s){return document.getElementById(P+s);}
+  var seg=$('segPMH'), sw=$('swPartner');
+  function render(){
+    $('pmhBox').firstChild.textContent=(mode==='OL'?'Online':'Chuyển khoản');
+    if(mode==='OL'){
+      $('accTitle').textContent='Thông tin tài khoản hoàn Online'; $('ownerLbl').textContent='Tên khách hàng';
+      $('stk').textContent='190332 xxxxx 6018'; $('stk').classList.add('masked');
+      $('pmhHint').textContent='PT hoàn = Online: đối tác & kênh hoàn tiền nhận từ PMH theo PTTT.';
+      $('partnerWarn').style.display=noPartner?'flex':'none';
+    }else{
+      $('accTitle').textContent='Thông tin tài khoản nhận tiền'; $('ownerLbl').textContent='Tên chủ tài khoản';
+      $('stk').textContent='19033214606018'; $('stk').classList.remove('masked');
+      $('pmhHint').textContent='SR cha = TLSSD chỉ cho phép Chuyển khoản.';
+      $('partnerWarn').style.display='none';
+    }
+    Array.prototype.forEach.call(seg.children,function(b){b.classList.toggle('on',b.dataset.v===mode);});
+    sw.classList.toggle('on',noPartner);
+  }
+  seg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;mode=b.dataset.v;render();});
+  sw.addEventListener('click',function(){noPartner=!noPartner;render();});
+  render();
+})();
+
+// ---------- B4 ----------
+(function(){
+  var P='b4-', S={parent:'KN',method:'CK',owner:'diff',view:'2'};
+  function $(s){return document.getElementById(P+s);}
+  var pL={KN:'Khiếu nại, phàn nàn',SSD:'Thanh lý sau sử dụng (TLSSD)',TSD:'Thanh lý trước sử dụng (TLTSD)'};
+  var rL={KN:'Yêu cầu khiếu nại',SSD:'Yêu cầu thanh lý SSD',TSD:'Yêu cầu thanh lý TSD'};
+  function bind(id,key){var b=$(id);b.addEventListener('click',function(e){var x=e.target.closest('button');if(!x||x.disabled)return;S[key]=x.dataset.v;Array.prototype.forEach.call(b.children,function(c){c.classList.toggle('on',c.dataset.v===S[key]);});render();});}
+  function l1(){return S.parent==='KN'||S.parent==='SSD';}
+  function l2(){return (S.method==='CK'&&S.owner==='diff')||(S.method==='OL'&&(S.parent==='KN'||S.parent==='TSD'));}
+  function xet(){if(S.method==='CK'&&S.owner==='diff')return 'Hoàn tiền chuyển khoản_ Chủ tài khoản # Chủ hợp đồng';if(S.method==='OL'&&S.parent==='KN')return 'Hoàn tiền online_ KH khiếu nại';if(S.method==='OL'&&S.parent==='TSD')return 'Hoàn tiền online_ KH TLTSD';return '—';}
+  function render(){
+    var mOL=document.querySelector('#'+P+'segMethod [data-v="OL"]');
+    if(S.parent==='SSD'){if(S.method==='OL')S.method='CK';mOL.disabled=true;}else mOL.disabled=false;
+    Array.prototype.forEach.call(document.querySelectorAll('#'+P+'segMethod button'),function(b){b.classList.toggle('on',b.dataset.v===S.method);});
+    $('ownerWrap').style.opacity=(S.method==='CK')?'1':'.45';
+    var a=l1(),b=l2();
+    var b1=$('b1'),b2=$('b2');
+    if(a){b1.className='badge b-req';b1.textContent='Yêu cầu duyệt';}else{b1.className='badge b-by';b1.textContent='Bypass (TLTSD)';}
+    if(b){b2.className='badge b-req';b2.textContent='Yêu cầu duyệt';}else{b2.className='badge b-na';b2.textContent='Không áp dụng';}
+    var v1=document.querySelector('#'+P+'segView [data-v="1"]'),v2=document.querySelector('#'+P+'segView [data-v="2"]');
+    v1.disabled=!a;v2.disabled=!b;
+    if(S.view==='1'&&!a)S.view=b?'2':'1'; if(S.view==='2'&&!b)S.view=a?'1':'2';
+    Array.prototype.forEach.call(document.querySelectorAll('#'+P+'segView button'),function(x){x.classList.toggle('on',x.dataset.v===S.view);});
+    $('st1').classList.toggle('active',S.view==='1');$('st2').classList.toggle('active',S.view==='2');
+    $('fParent').textContent=pL[S.parent];$('fR1').textContent=rL[S.parent];
+    $('fMethod').textContent=(S.method==='CK')?'Chuyển khoản':'Online';$('fXet').textContent=xet();
+    $('accTitle').textContent=(S.method==='CK')?'Thông tin tài khoản nhận tiền':'Thông tin tài khoản hoàn Online';
+    $('fOwnerLbl').textContent=(S.method==='CK')?'Tên chủ tài khoản':'Tên khách hàng';
+    var stk=$('fStk');if(S.method==='CK'){stk.textContent='19033214606018';stk.classList.remove('masked');}else{stk.textContent='190332 xxxxx 6018';stk.classList.add('masked');}
+    var btn=$('btnApprove'),cn=$('cancelNote');
+    if(!a&&!b){btn.textContent='Không cần duyệt — tạo thẳng ticket đề nghị';btn.classList.remove('p');cn.textContent='TLTSD + CK + chủ TK = chủ HĐ: bỏ qua cả 2 cấp, tạo thẳng ticket Đề nghị hoàn tiền.';}
+    else{btn.classList.add('p');btn.textContent=(S.view==='1')?'Duyệt giao dịch — TPP DVKH':'Duyệt giao dịch — GĐCN';cn.textContent=(S.method==='CK')?'Hủy sau khi GĐCN đã duyệt (CK): duyệt NOT OK trên ePayment để hủy.':'Hủy (Online): DVKH HO duyệt NOT OK sẽ hủy SR.';}
+    $('sub').textContent='SR cha: '+pL[S.parent]+' · PT hoàn: '+(S.method==='CK'?'Chuyển khoản':'Online')+(S.method==='CK'?(' · Chủ TK '+(S.owner==='diff'?'≠':'=')+' chủ HĐ'):'');
+    $('ruleText').innerHTML='Cấp 1 (TPP DVKH) khi SR cha ∈ {Khiếu nại, TLSSD}; TLTSD bypass cấp 1.<br>Cấp 2 (GĐCN) khi: CK &amp; chủ TK ≠ chủ HĐ, hoặc Online &amp; SR cha ∈ {Khiếu nại, TLTSD}.';
+  }
+  bind('segParent','parent');bind('segMethod','method');bind('segOwner','owner');bind('segView','view');
+  render();
+})();
+
+// ---------- B51 ----------
+(function(){
+  var P='b51-', order=['create','wait','sent','ok'];
+  var SL={create:'Tạo ticket',wait:'Chờ tạo lệnh qua ePayment',sent:'Đã tạo lệnh qua ePayment',ok:'Hệ thống ePayment duyệt OK',nok:'Hệ thống ePayment duyệt not OK',cancel:'Đã hủy'};
+  var S={state:'create',retry:0};
+  function $(s){return document.getElementById(P+s);}
+  function setSeg(v){Array.prototype.forEach.call($('segState').children,function(b){b.classList.toggle('on',b.dataset.v===v);});}
+  function stepRows(){
+    var rows=[['1','EP260627001','Nguyễn Văn A','27/06 14:05','ok'],['2','EP260627001','Trần Thị B','27/06 14:20','ok'],['3','EP260627001','Lê Văn C','27/06 15:00',S.state==='ok'?'ok':(S.state==='nok'?'no':'wait')],['4','EP260627001','Phạm Thị D','',S.state==='ok'?'ok':'wait']];
+    var h='';rows.forEach(function(r){var cls=r[4]==='ok'?'ok':(r[4]==='no'?'no':'wait');var tx=r[4]==='ok'?'OK':(r[4]==='no'?'Not OK':'Chờ duyệt');h+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+(r[3]||'—')+'</td><td><span class="st '+cls+'">'+tx+'</span></td></tr>';});
+    if(S.state==='ok')h+='<tr><td>—</td><td>SMS1</td><td>System</td><td>27/06 15:02</td><td><span class="st sms">Đã gửi SMS · 0906200687</span></td></tr>';
+    $('stepRows').innerHTML=h;
+  }
+  function stepper(){
+    var done={create:0,wait:1,sent:2,ok:3,nok:2,cancel:0};
+    document.querySelectorAll('#'+P+'stepper .pill').forEach(function(p){p.className='pill';var k=p.dataset.k,idx=order.indexOf(k),cur=done[S.state];
+      if(S.state==='ok'&&k==='ok')p.classList.add('active');else if(S.state==='nok'&&k==='sent')p.classList.add('fail');else if(idx<cur)p.classList.add('done');else if(idx===cur)p.classList.add('active');});
+    var last=document.querySelector('#'+P+'stepper .pill[data-k="ok"]');last.childNodes[1].nodeValue=(S.state==='nok')?'ePayment duyệt not OK':'ePayment duyệt OK';if(S.state==='nok'){last.classList.remove('active');last.classList.add('fail');}
+  }
+  function notes(){
+    var h='';
+    if(S.state==='wait')h+='<div class="note p2"><span class="k">P2 · Âm cọc</span><span>Chuyển <b>Chờ tạo lệnh</b> → <b>âm cọc (âm Ecash)</b>, Người TT = <b>System</b>; vào giỏ chờ, quét 8h/14h gom ticket cùng acc (theo CBQL người xử lý) đẩy 1 lượt.</span></div>';
+    if(S.state==='ok')h+='<div class="note ok"><span class="k">Hoàn tất</span><span>ePayment duyệt OK → <b>gửi SMS1</b>, SR <b>Đã xử lý</b>, tạo ticket CSAT.</span></div>';
+    if(S.state==='nok'){if(S.retry>=3)h+='<div class="note fix"><span class="k">Not OK lần 3</span><span>Ticket <b>not OK</b>, SR <b>không thành công</b>, <b>+ cọc (+ Ecash)</b>.</span></div>';else h+='<div class="note warn"><span class="k">Not OK</span><span>Cho <b>Tạo lệnh ePayment</b> lại (tối đa 3 lần). Hiện '+S.retry+'/3.</span></div>';}
+    if(S.state==='cancel')h+='<div class="note fix"><span class="k">Đã hủy</span><span>Hủy trên ePayment → đồng bộ về SR: <b>không thành công</b>, <b>+ cọc</b>. Hủy 1 mã đề nghị gộp = hủy chung các SR.</span></div>';
+    $('stateNotes').innerHTML=h;
+  }
+  function buttons(){
+    var main=$('btnMain'),cancel=$('btnCancel'),demo=$('epayDemo'),rI=$('retryInline'),rT=$('retryTxt');
+    main.style.display='inline-flex';cancel.style.display='inline-flex';demo.style.display='none';main.disabled=false;cancel.disabled=false;rI.style.display='none';rT.style.display='none';
+    if(S.state==='create'){main.textContent='Tạo lệnh ePayment';cancel.textContent='Hủy lệnh';}
+    else if(S.state==='wait'){main.textContent='Đang trong giỏ chờ…';main.disabled=true;cancel.textContent='Hủy lệnh';demo.style.display='inline-flex';demo.innerHTML='<button class="btn" id="'+P+'btnPush">Hệ thống đẩy ePayment ›</button>';document.getElementById(P+'btnPush').onclick=function(){go('sent');};}
+    else if(S.state==='sent'){main.textContent='Đã tạo lệnh qua ePayment';main.disabled=true;cancel.textContent='Hủy lệnh';cancel.disabled=true;demo.style.display='inline-flex';demo.innerHTML='<span style="font-size:11px;color:var(--muted);align-self:center;margin-right:4px">mô phỏng ePayment:</span><button class="btn" id="'+P+'ok">trả OK</button><button class="btn" id="'+P+'nok">trả not OK</button>';document.getElementById(P+'ok').onclick=function(){go('ok');};document.getElementById(P+'nok').onclick=function(){S.retry++;go('nok');};}
+    else if(S.state==='ok'){main.textContent='Hoàn tất';main.disabled=true;cancel.style.display='none';}
+    else if(S.state==='nok'){if(S.retry>=3){main.textContent='Đã dừng (3/3)';main.disabled=true;cancel.textContent='Hủy lệnh';cancel.disabled=true;}else{main.textContent='Tạo lệnh ePayment (lần '+(S.retry+1)+')';cancel.textContent='Hủy lệnh + hoàn cọc';}rI.style.display='inline';rI.textContent='Số lần tạo lệnh: '+S.retry+'/3';rT.style.display='inline';rT.textContent='Số lần tạo lệnh: '+S.retry+'/3';}
+    else if(S.state==='cancel'){main.style.display='none';cancel.textContent='Đã hủy';cancel.disabled=true;}
+  }
+  function go(v){S.state=v;setSeg(v);if(v==='create')S.retry=0;render();}
+  function render(){$('valState').textContent=SL[S.state];$('secSteps').style.display=(S.state==='sent'||S.state==='ok'||S.state==='nok')?'block':'none';$('smsNote').style.display=(S.state==='ok')?'flex':'none';stepRows();stepper();notes();buttons();}
+  $('segState').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.v==='nok'&&S.retry===0)S.retry=1;if(b.dataset.v==='create')S.retry=0;S.state=b.dataset.v;setSeg(b.dataset.v);render();});
+  $('btnMain').addEventListener('click',function(){if(S.state==='create')go('wait');else if(S.state==='nok'&&S.retry<3)go('wait');});
+  $('btnCancel').addEventListener('click',function(){if(!this.disabled)go('cancel');});
+  render();
+})();
+
+// ---------- B52 ----------
+(function(){
+  var P='b52-', S={channel:'Mail',noPartner:false,decision:'approve',phase:'review',sendNow:false,result:null,status:'wait'};
+  var cL={Mail:'Mail',API:'API',Merchant:'Merchant Đối tác'};
+  function $(s){return document.getElementById(P+s);}
+  function seg(id,key,after){var b=$(id);b.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;S[key]=x.dataset.v;Array.prototype.forEach.call(b.children,function(c){c.classList.toggle('on',c.dataset.v===S[key]);});if(after)after();render();});}
+  function render(){
+    $('partnerWarn').classList.toggle('hide',!S.noPartner);$('pmhNote').classList.toggle('hide',S.noPartner);
+    ['pPartner','pChannel'].forEach(function(id){$(id).classList.toggle('ed',S.noPartner);});
+    $('pChannel').textContent=cL[S.channel];$('aPartner').textContent='VNPAY';$('aChannel').textContent=cL[S.channel];
+    $('rdA').classList.toggle('on',S.decision==='approve');$('rdR').classList.toggle('on',S.decision==='reject');
+    $('approveBox').classList.toggle('hide',S.decision!=='approve');$('rejectBox').classList.toggle('hide',S.decision!=='reject');
+    $('mailOpts').classList.toggle('hide',!(S.decision==='approve'&&S.channel==='Mail'));
+    $('sendNow').classList.toggle('on',S.sendNow);
+    $('mailStateBox').innerHTML=S.sendNow?'<span class="mailstat pend">Chờ gửi (gửi ngay khi duyệt)</span>':'<span class="mailstat pend">Chờ gửi mail</span>';
+    var sb=$('statusBadge'),ss=$('srState');sb.className='stbadge';
+    if(S.status==='wait'){sb.classList.add('b-wait');sb.textContent='Chờ HO duyệt';ss.textContent='SR: Đang xử lý';}
+    else if(S.status==='reject'){sb.classList.add('b-no');sb.textContent='Từ chối duyệt';ss.textContent='SR: Xử lý không thành công';}
+    else if(S.status==='go'){sb.classList.add('b-go');sb.textContent='DVKHHO đồng ý duyệt - Chuyển đối tác hoàn tiền';ss.textContent='SR: Đang xử lý';}
+    else if(S.status==='pok'){sb.classList.add('b-ok');sb.textContent='Đối tác đồng ý hoàn tiền - KH chờ nhận tiền';ss.textContent='SR: Hoàn tất thành công';}
+    else if(S.status==='pnok'){sb.classList.add('b-no');sb.textContent='Đối tác từ chối hoàn tiền';ss.textContent='SR: Xử lý không thành công';}
+    $('btnDuyet').disabled=(S.phase!=='review');$('btnDuyet').textContent=(S.phase!=='review')?'Đã duyệt':'Duyệt';
+    $('secCapNhat').classList.toggle('hide',S.status!=='go'&&S.status!=='pok'&&S.status!=='pnok');
+    $('apiAuto').classList.toggle('hide',S.channel!=='API');
+    $('resultTxt').textContent=S.result==='ok'?'Đối tác đồng ý hoàn tiền - KH chờ nhận tiền':(S.result==='nok'?'Đối tác từ chối hoàn tiền':'— Chọn kết quả —');
+    $('btnCapNhat').disabled=(S.result===null)||(S.status==='pok'||S.status==='pnok');$('btnCapNhat').textContent=(S.status==='pok'||S.status==='pnok')?'Đã cập nhật':'Cập nhật';
+    var h='';
+    if(S.status==='reject')h+='<div class="note fix"><span class="k">Từ chối duyệt</span><span>Ghi nhận lý do → <b>SR không thành công</b>. Tình trạng = "Từ chối duyệt".</span></div>';
+    if(S.status==='go'||S.status==='pok'||S.status==='pnok'){
+      h+='<div class="note p2"><span class="k">P2 · Duyệt Đồng ý</span><span>→ "Chuyển đối tác hoàn tiền": <b>auto âm cọc (âm Ecash)</b> &amp; gửi <b>SMS</b> tới KH (12/10 22:20 · 0906200687).</span></div>';
+      if(S.channel==='Mail')h+='<div class="note ok"><span class="k">Kênh Mail</span><span>Tự động gửi mail đối tác (CC ftel.cus.doisoat@fpt.com). '+(S.sendNow?'Trạng thái <b>Đã gửi mail</b> · 12/10 22:20.':'Vào giỏ chờ gửi mail (quét 8h/14h) — <b>Chờ gửi mail</b>.')+' <button class="btn sm">Gửi lại mail</button></span></div>';
+      else if(S.channel==='API')h+='<div class="note p2"><span class="k">Kênh API</span><span>Tự động <b>tạo đề nghị hoàn tiền trên PMH</b>.</span></div>';
+      else h+='<div class="note warn"><span class="k">Kênh Merchant</span><span>DVKH HO vào <b>Merchant đối tác</b> tạo đề nghị (thủ công).</span></div>';
+    }
+    if(S.status==='pok')h+='<div class="note ok"><span class="k">Hoàn tất</span><span>Đối tác đồng ý → <b>SR hoàn tất thành công</b>, tạo ticket CSAT.</span></div>';
+    if(S.status==='pnok')h+='<div class="note fix"><span class="k">Không thành công</span><span>Đối tác từ chối → <b>hoàn cọc</b>, SR <b>không thành công</b>.</span></div>';
+    $('progress').innerHTML=h;
+    $('sub').textContent='Kênh: '+cL[S.channel]+(S.noPartner?' · Đối tác chưa khai báo (nhập tay)':' · Đối tác từ PMH');
+  }
+  seg('segChannel','channel',function(){if(S.channel!=='Mail')S.sendNow=false;});
+  $('swPartner').addEventListener('click',function(){S.noPartner=!S.noPartner;this.classList.toggle('on',S.noPartner);render();});
+  document.querySelectorAll('#panel-b52 .radio[data-dec]').forEach(function(r){r.addEventListener('click',function(){S.decision=r.dataset.dec;render();});});
+  $('sendNowWrap').addEventListener('click',function(){S.sendNow=!S.sendNow;render();});
+  $('btnDuyet').addEventListener('click',function(){if(S.phase!=='review')return;if(S.decision==='reject'){if(!$('rejectReason').value.trim()){$('rejectReason').style.borderColor='#d14343';$('rejectReason').placeholder='Khi từ chối duyệt cần nhập lý do từ chối.';return;}S.phase='final';S.status='reject';}else{S.phase='afterApprove';S.status='go';}render();});
+  $('secCapNhat').addEventListener('click',function(e){var b=e.target.closest('button[data-res]');if(!b)return;S.result=b.dataset.res;render();});
+  $('btnCapNhat').addEventListener('click',function(){if(S.result===null)return;S.status=(S.result==='ok')?'pok':'pnok';S.phase='done';render();});
+  render();
+})();
+
+// ---------- DS ----------
+(function(){
+  var P='ds-', S={channel:'Mail',srType:'partner',received:false,closed:false};
+  var cL={Mail:'Mail',API:'API',Merchant:'Merchant Đối tác'};
+  var TX=[{ref:'VNPAY_2607524384',partner:'VNPAY',amt:300000,res:'ok'},{ref:'VNPAY_2607524390',partner:'VNPAY',amt:250000,res:'ok'},{ref:'VNPAY_2607524401',partner:'VNPAY',amt:400000,res:'ok'},{ref:'VNPAY_2607524415',partner:'VNPAY',amt:300000,res:'fail',reason:'Tài khoản đối tác không hợp lệ',act:'retry'},{ref:'VNPAY_2607524428',partner:'VNPAY',amt:200000,res:'fail',reason:'Giao dịch gốc không tồn tại',act:'close'}];
+  function $(s){return document.getElementById(P+s);}
+  function money(n){return n.toLocaleString('vi-VN');}
+  function seg(id,key){var b=$(id);b.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;S[key]=x.dataset.v;Array.prototype.forEach.call(b.children,function(c){c.classList.toggle('on',c.dataset.v===S[key]);});render();});}
+  function txRows(){var h='';TX.forEach(function(t,i){var cls='wait',tx='Chờ đối tác';if(S.received){if(t.res==='ok'){cls='ok';tx='Thành công';}else{cls='no';tx='Thất bại';}}h+='<tr><td>'+(i+1)+'</td><td>'+t.ref+'</td><td>'+t.partner+'</td><td>'+cL[S.channel]+'</td><td class="num">'+money(t.amt)+'</td><td><span class="st '+cls+'">'+tx+'</span></td><td>'+(S.received&&t.res==='fail'?t.reason:'—')+'</td></tr>';});$('txRows').innerHTML=h;$('totalAmt').textContent=money(TX.reduce(function(a,t){return a+t.amt;},0));}
+  function channelNote(){var h='';if(S.channel==='Mail')h='<div class="note ok"><span class="k">Kênh Mail</span><span>Tự động gửi mail danh sách GD tới đối tác, gom ticket cùng đối tác (CC ftel.cus.doisoat@fpt.com). <span class="mailstat sent">Đã gửi mail · 12/10 22:20</span> <button class="btn sm">Gửi lại mail</button></span></div>';else if(S.channel==='API')h='<div class="note p2"><span class="k">Kênh API</span><span>Tự động <b>tạo đề nghị trên PMH</b>; PMH <b>tự update kết quả</b> về ticket.</span></div>';else h='<div class="note warn"><span class="k">Kênh Merchant</span><span>DVKH HO vào <b>Merchant đối tác</b> tạo đề nghị và cập nhật/import thủ công.</span></div>';$('channelNote').innerHTML=h;}
+  function failRows(){var h='';TX.filter(function(t){return t.res==='fail';}).forEach(function(t){h+='<tr data-ref="'+t.ref+'"><td>'+t.ref+'</td><td class="num">'+money(t.amt)+'</td><td>'+t.reason+'</td><td><select class="msel"><option value="retry"'+(t.act==='retry'?' selected':'')+'>Retry lại</option><option value="close"'+(t.act==='close'?' selected':'')+'>Đóng (không thành công)</option></select></td></tr>';});$('failRows').innerHTML=h;}
+  function render(){
+    $('chVal').textContent=cL[S.channel];$('hdLbl').textContent=(S.srType==='hd')?'Số hợp đồng':'Mã HĐ đối tác';$('hdVal').textContent=(S.srType==='hd')?'SGAFV5993':'VNPAY-DS-2026';
+    txRows();channelNote();
+    $('btnReceive').textContent=S.received?'Đã nhận kết quả':'Nhận kết quả hoàn tiền từ đối tác';$('btnReceive').disabled=S.received;
+    $('recvHint').textContent=S.channel==='API'?(S.received?'':'(API: PMH tự update — bấm để mô phỏng)'):(S.received?'':'(mô phỏng 3 OK / 2 fail)');
+    var hasFail=S.received&&TX.some(function(t){return t.res==='fail';});
+    $('secFail').classList.toggle('hide',!hasFail);if(hasFail)failRows();
+    var sb=$('statusBadge'),ss=$('srState');sb.className='stbadge';
+    if(!S.received){sb.classList.add('b-go');sb.textContent='DVKHHO đồng ý duyệt - Chuyển đối tác hoàn tiền';ss.textContent='SR: Đang xử lý';}
+    else if(!S.closed){sb.classList.add('b-mix');sb.textContent='Đối tác đã trả kết quả (có GD thất bại)';ss.textContent='SR: Chờ kết thúc';}
+    var rh='';
+    if(S.closed){var ok=TX.filter(function(t){return t.res==='ok';});var sels=$('failRows')?$('failRows').querySelectorAll('tr'):[];var retry=[],close=[];sels.forEach(function(tr){(tr.querySelector('select').value==='retry'?retry:close).push(tr.dataset.ref);});
+      sb.className='stbadge b-ok';sb.textContent='Đã kết thúc SR';ss.textContent='SR: Đã xử lý';
+      rh+='<div class="section"><div class="sec-h"><span class="ic"></span>Kết quả kết thúc SR</div><div class="sec-b"><div class="sum"><div class="sumcard"><div class="n" style="color:var(--ok)">'+ok.length+'</div><div class="t">GD thành công</div></div><div class="sumcard"><div class="n" style="color:var(--accent)">'+retry.length+'</div><div class="t">GD Retry lại</div></div><div class="sumcard"><div class="n" style="color:var(--fix)">'+close.length+'</div><div class="t">GD đóng (không TC)</div></div></div><div class="note ok"><span class="k">Thành công</span><span>'+ok.length+' GD hoàn tiền thành công → gửi SMS, ghi nhận hoàn tất phần thành công.</span></div>'+(retry.length?'<div class="note p2"><span class="k">Retry</span><span>'+retry.length+' GD đẩy lại (SR Retry).</span></div>':'')+(close.length?'<div class="note warn"><span class="k">Đóng</span><span>'+close.length+' GD kết thúc không thành công.</span></div>':'')+'</div></div>';}
+    $('result').innerHTML=rh;
+    $('sub').textContent='Luồng đối soát · Kênh '+cL[S.channel]+' · SR '+(S.srType==='hd'?'theo số HĐ':'theo đối tác');
+  }
+  seg('segChannel','channel');seg('segType','srType');
+  $('btnReceive').addEventListener('click',function(){S.received=true;render();});
+  $('btnClose').addEventListener('click',function(){S.closed=true;render();});
+  render();
+})();
+</script>
+</body>
+</html>
